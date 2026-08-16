@@ -36,7 +36,10 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				App/doitApp.swift,
+				Extensions/Colour.swift,
 				Features/Home/HomeView.swift,
+				Features/Todo/AddFolderView.swift,
+				Features/Todo/TodoDatePicker.swift,
 				Features/Todo/TodoFolder.swift,
 				Features/Todo/TodoFolderView.swift,
 				Features/Todo/TodoItem.swift,
@@ -45,6 +48,20 @@
 			);
 			target = F3FB81B2302F72BC0058536A /* doit */;
 		};
+		F3FB8266303061D30058536A /* Exceptions for "doit" folder in "doitTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Extensions/Colour.swift,
+			);
+			target = F3FB81C1302F72BE0058536A /* doitTests */;
+		};
+		F3FB8267303061D30058536A /* Exceptions for "doit" folder in "doitUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Extensions/Colour.swift,
+			);
+			target = F3FB81CB302F72BE0058536A /* doitUITests */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +69,8 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				F3FB8206302F78920058536A /* Exceptions for "doit" folder in "doit" target */,
+				F3FB8266303061D30058536A /* Exceptions for "doit" folder in "doitTests" target */,
+				F3FB8267303061D30058536A /* Exceptions for "doit" folder in "doitUITests" target */,
 			);
 			path = doit;
 			sourceTree = "<group>";

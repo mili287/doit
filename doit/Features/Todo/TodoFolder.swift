@@ -1,14 +1,20 @@
 import Foundation
 import SwiftData
-// Model: tells swiftData to store in db
+
 @Model
 final class TodoFolder {
+
     var title: String
-    // Relationship cascade: if folder deleted, delete todos too
+    var colorHex: String
+
     @Relationship(deleteRule: .cascade)
     var todos: [TodoItem] = []
 
-    init(title: String) {
+    init(
+        title: String,
+        colorHex: String = "#007AFF"
+    ) {
         self.title = title
+        self.colorHex = colorHex
     }
 }

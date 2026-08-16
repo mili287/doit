@@ -7,39 +7,21 @@ struct TodoFolderView: View {
 
     var folder: TodoFolder
 
-    @State private var newTodoTitle = ""
-    @State private var hasDeadline = false
-    @State private var newTodoDeadline = Date()
-
     var body: some View {
-        VStack {
-
-            List {
-
-                // Existing todos
-                ForEach(folder.todos) { todo in
-                    TodoRow(todo: todo)
+        List {
+            ForEach(folder.todos) { todo in
+                TodoRow(todo: todo) {
+                    deleteTodo(todo)
                 }
-                .onDelete(perform: deleteTodos)
+            }
+            .onDelete(perform: deleteTodos)
 
-                // New todo
-                Section {
-                    TextField("Add task...", text: $newTodoTitle)
-
-                    Toggle("Deadline", isOn: $hasDeadline)
-
-                    if hasDeadline {
-                        DatePicker(
-                            "Due",
-                            selection: $newTodoDeadline,
-                            displayedComponents: .date
-                        )
-                    }
-
-                    Button("Done") {
-                        addTodo()
-                    }
-                    .disabled(newTodoTitle.isEmpty)
+            Button {
+                addTodo()
+            } label: {
+                HStack(spacing: 12) {
+                    Image(systemName: "plus.circle.fill")
+                    Text("New Task")
                 }
             }
         }
@@ -47,27 +29,40 @@ struct TodoFolderView: View {
     }
 
     private func addTodo() {
-        let title = newTodoTitle.trimmingCharacters(
-            in: .whitespacesAndNewlines
-        )
+        let hasEmptyTask = folder.todos.contains { todo in
+            todo.title
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+                .isEmpty
+        }
 
-        guard !title.isEmpty else { return }
+        guard !hasEmptyTask else { return }
 
         let todo = TodoItem(
-            title: title,
-            deadline: hasDeadline ? newTodoDeadline : nil
+            title: "",
+            isCompleted: false,
+            dueDate: nil
         )
 
         folder.todos.append(todo)
+        modelContext.insert(todo)
+    }
 
-        newTodoTitle = ""
-        hasDeadline = false
-        newTodoDeadline = Date()
+    private func deleteTodo(_ todo: TodoItem) {
+        guard let index = folder.todos.firstIndex(
+            where: { $0.persistentModelID == todo.persistentModelID }
+        ) else {
+            return
+        }
+
+        folder.todos.remove(at: index)
+        modelContext.delete(todo)
     }
 
     private func deleteTodos(at offsets: IndexSet) {
-        for index in offsets {
-            modelContext.delete(folder.todos[index])
+        let todosToDelete = offsets.map { folder.todos[$0] }
+
+        for todo in todosToDelete {
+            deleteTodo(todo)
         }
     }
 }
