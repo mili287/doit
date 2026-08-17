@@ -1,5 +1,4 @@
 import SwiftUI
-import SwiftData
 
 struct HomeView: View {
     var body: some View {
@@ -9,95 +8,52 @@ struct HomeView: View {
                     .ignoresSafeArea()
 
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 14) {
+                    VStack(alignment: .leading, spacing: 22) {
 
-                        // Header
-                        Text("Bullet Journal")
-                            .font(.system(size: 38, weight: .bold, design: .rounded))
-                            .padding(.top, 20)
-                            .padding(.bottom, 8)
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text("Bullet Journal")
+                                .font(.system(size: 40, weight: .bold, design: .rounded))
 
-                        // To-Do Card
+                            Text(Date.now, format: .dateTime.weekday(.wide).month(.wide).day())
+                                .foregroundStyle(.secondary)
+                        }
+                        .padding(.top, 18)
+
                         NavigationLink {
                             TodoView()
                         } label: {
-                            HStack(spacing: 18) {
-
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 18)
-                                        .fill(.blue.opacity(0.15))
-                                        .frame(width: 58, height: 58)
-
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .font(.system(size: 28))
-                                        .foregroundStyle(.blue)
-                                }
-
-                                Text("To Do")
-                                    .font(.title3)
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(.primary)
-
-                                Spacer()
-
-                                Image(systemName: "chevron.right")
-                                    .font(.system(size: 15, weight: .semibold))
-                                    .foregroundStyle(.tertiary)
-                            }
-                            .padding(20)
-                            .background {
-                                RoundedRectangle(cornerRadius: 26)
-                                    .fill(.background)
-                                    .shadow(
-                                        color: .black.opacity(0.06),
-                                        radius: 12,
-                                        y: 5
-                                    )
-                            }
+                            FeatureCard(
+                                title: "To Do",
+                                icon: "checkmark.circle.fill",
+                                color: .purple
+                            )
                         }
                         .buttonStyle(.plain)
 
-                        // Journal Card
                         NavigationLink {
                             JournalView()
                         } label: {
-                            HStack(spacing: 18) {
+                            FeatureCard(
+                                title: "Journal",
+                                icon: "book.closed.fill",
+                                color: .purple
+                            )
+                        }
+                        .buttonStyle(.plain)
 
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 18)
-                                        .fill(.purple.opacity(0.15))
-                                        .frame(width: 58, height: 58)
-
-                                    Image(systemName: "book.closed.fill")
-                                        .font(.system(size: 28))
-                                        .foregroundStyle(.purple)
-                                }
-
-                                Text("Journal")
-                                    .font(.title3)
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(.primary)
-
-                                Spacer()
-
-                                Image(systemName: "chevron.right")
-                                    .font(.system(size: 15, weight: .semibold))
-                                    .foregroundStyle(.tertiary)
-                            }
-                            .padding(20)
-                            .background {
-                                RoundedRectangle(cornerRadius: 26)
-                                    .fill(.background)
-                                    .shadow(
-                                        color: .black.opacity(0.06),
-                                        radius: 12,
-                                        y: 5
-                                    )
-                            }
+                        NavigationLink {
+                            CollectionsView()
+                        } label: {
+                            FeatureCard(
+                                title: "Collections",
+                                icon: "rectangle.stack.fill",
+                                color: .purple
+                            )
                         }
                         .buttonStyle(.plain)
                     }
                     .padding(.horizontal, 22)
+                    .padding(.bottom, 30)
                 }
             }
             .toolbar(.hidden, for: .navigationBar)
@@ -105,14 +61,34 @@ struct HomeView: View {
     }
 }
 
-#Preview {
-    HomeView()
-        .modelContainer(
-            for: [
-                TodoFolder.self,
-                TodoItem.self,
-                JournalEntry.self
-            ],
-            inMemory: true
-        )
+private struct FeatureCard: View {
+    let title: String
+    let icon: String
+    let color: Color
+
+    var body: some View {
+        HStack(spacing: 18) {
+            Image(systemName: icon)
+                .font(.system(size: 30))
+                .foregroundStyle(color)
+                .frame(width: 52)
+
+            VStack(alignment: .leading, spacing: 5) {
+                Text(title)
+                    .font(.title3)
+                    .fontWeight(.semibold)
+            }
+
+            Spacer()
+
+            Image(systemName: "arrow.right")
+                .font(.subheadline)
+                .foregroundStyle(.primary)
+        }
+        .padding(22)
+        .background {
+            RoundedRectangle(cornerRadius: 24)
+                .fill(color.opacity(0.09))
+        }
+    }
 }

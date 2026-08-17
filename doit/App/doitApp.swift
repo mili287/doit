@@ -10,7 +10,9 @@ struct DigitalBulletJournalApp: App {
         .modelContainer(for: [
             TodoFolder.self,
             TodoItem.self,
-            JournalEntry.self
+            JournalEntry.self,
+            CollectionItem.self,
+            CollectionFolder.self
         ])
     }
 }
