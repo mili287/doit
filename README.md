@@ -1,5 +1,5 @@
 # doit
-A digital bullet journal
+A digital bullet journal for iOS
 
 ### Includes:
 - **Todo list:** add and organize tasks into folders and set deadlines
