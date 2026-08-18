@@ -36,6 +36,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				App/doitApp.swift,
+				Assets.xcassets,
 				Extensions/Colour.swift,
 				Features/Collections/AddCollectionFolderView.swift,
 				Features/Collections/AddCollectionItemView.swift,
