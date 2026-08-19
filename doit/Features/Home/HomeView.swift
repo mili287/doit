@@ -14,7 +14,7 @@ struct HomeView: View {
                             Text("Bullet Journal")
                                 .font(.system(size: 40, weight: .bold, design: .rounded))
 
-                            Text(Date.now, format: .dateTime.weekday(.wide).month(.wide).day())
+                            Text(Date.now, format: .dateTime.weekday(.wide).day().month(.wide))
                                 .foregroundStyle(.secondary)
                         }
                         .padding(.top, 18)
@@ -47,6 +47,16 @@ struct HomeView: View {
                             FeatureCard(
                                 title: "Collections",
                                 icon: "rectangle.stack.fill",
+                                color: .purple
+                            )
+                        }
+                        .buttonStyle(.plain)
+                        NavigationLink {
+                            HabitsView()
+                        } label: {
+                            FeatureCard(
+                                title: "Habits",
+                                icon: "flame.fill",
                                 color: .purple
                             )
                         }
