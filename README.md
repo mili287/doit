@@ -8,8 +8,12 @@ A digital bullet journal for iOS
 - **Habits:** track daily activities and view statistics
 
 ### Todos
-- make journal entries markdown like
-- add week plan
-- add habit tracker
-- create progress bars for habit tracker
+#### Journal
+- make journal entries markdown-like
+#### Habits
 - create a statistics page for each habit
+- mark progress bar green if habit achieved
+- make habits reset every day
+#### New Features
+- add week plan
+- add calendar
