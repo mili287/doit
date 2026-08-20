@@ -12,7 +12,8 @@ struct DigitalBulletJournalApp: App {
             TodoItem.self,
             JournalEntry.self,
             CollectionItem.self,
-            CollectionFolder.self
+            CollectionFolder.self,
+            Habit.self
         ])
     }
 }

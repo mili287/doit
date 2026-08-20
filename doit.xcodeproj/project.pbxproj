@@ -49,6 +49,7 @@
 				Features/Collections/ManageCollectionSectionsView.swift,
 				Features/Habits/AddHabitView.swift,
 				Features/Habits/Habit.swift,
+				Features/Habits/HabitRowView.swift,
 				Features/Habits/HabitStatsView.swift,
 				Features/Habits/HabitsView.swift,
 				Features/Home/HomeView.swift,
