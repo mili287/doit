@@ -8,23 +8,45 @@ struct HabitRow: View {
         VStack(alignment: .leading, spacing: 14) {
 
             HStack {
-                Text(habit.title)
-                    .font(.headline)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(habit.title)
+                        .font(.headline)
+
+                    Text(
+                        "\(habit.amount) of \(habit.targetAmount)"
+                    )
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                }
 
                 Spacer()
 
-                Text("\(Int(habit.percentage * 100))%")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                if habit.isCompleted {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                        .font(.title2)
+                } else {
+                    Text("\(Int(habit.percentage * 100))%")
+                        .font(.subheadline)
+                        .foregroundStyle(
+                            habit.isCompleted ? .green : .secondary
+                        )
+                }
             }
 
-            ProgressView(value: habit.percentage)
-                .progressViewStyle(.linear)
+            ProgressView(
+                value: min(habit.percentage, 1.0)
+            )
+            .tint(
+                habit.isCompleted ? .green : .accentColor
+            )
 
             HStack {
-                Text("\(habit.amount)")
-                    .font(.title2)
-                    .fontWeight(.semibold)
+
+                Text(habit.resetFrequency.rawValue)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
 
                 Spacer()
 
@@ -33,7 +55,9 @@ struct HabitRow: View {
                 } label: {
                     Image(systemName: "minus")
                         .frame(width: 36, height: 36)
-                        .background(Color(.secondarySystemGroupedBackground))
+                        .background(
+                            Color(.tertiarySystemGroupedBackground)
+                        )
                         .clipShape(Circle())
                 }
                 .buttonStyle(.plain)
@@ -43,28 +67,36 @@ struct HabitRow: View {
                 } label: {
                     Image(systemName: "plus")
                         .frame(width: 36, height: 36)
-                        .background(Color.accentColor.opacity(0.15))
+                        .background(
+                            habit.isCompleted
+                            ? Color.green.opacity(0.15)
+                            : Color.accentColor.opacity(0.15)
+                        )
                         .clipShape(Circle())
                 }
                 .buttonStyle(.plain)
             }
         }
         .padding()
-        .background(Color(.secondarySystemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .background(
+            habit.isCompleted
+            ? Color.green.opacity(0.12)
+            : Color(.secondarySystemGroupedBackground)
+        )
+        .clipShape(
+            RoundedRectangle(cornerRadius: 20)
+        )
     }
 
     private func increaseProgress() {
         habit.amount += 1
-
-        habit.isCompleted = habit.percentage >= 1
     }
 
     private func decreaseProgress() {
-        guard habit.amount > 0 else { return }
+        guard habit.amount > 0 else {
+            return
+        }
 
         habit.amount -= 1
-
-        habit.isCompleted = false
     }
 }

@@ -45,6 +45,11 @@ struct HabitsView: View {
             .sheet(isPresented: $showingAddHabit) {
                 AddHabitView()
             }
+            .onAppear {
+                for habit in habits {
+                    habit.resetIfNeeded()
+                }
+            }
         }
     }
 }
