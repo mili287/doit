@@ -13,10 +13,14 @@ enum HabitResetFrequency: String, Codable, CaseIterable, Identifiable {
 final class Habit {
     
     var title: String
-    var amount: Int
-    var targetAmount: Int
-    var resetFrequencyRawValue: String
-    var lastResetDate: Date
+        var amount: Int
+        var targetAmount: Int
+
+        var resetFrequencyRawValue: String
+        var lastResetDate: Date
+
+        @Relationship(deleteRule: .cascade)
+        var records: [HabitRecord] = []
     
     init(
         title: String = "",
@@ -54,38 +58,48 @@ final class Habit {
     }
     
     func resetIfNeeded() {
-        
+
         let calendar = Calendar.current
         let now = Date()
-        
+
         let shouldReset: Bool
-        
+
         switch resetFrequency {
-            
+
         case .daily:
             shouldReset = !calendar.isDate(
                 lastResetDate,
                 inSameDayAs: now
             )
-            
+
         case .weekly:
             shouldReset = !calendar.isDate(
                 lastResetDate,
                 equalTo: now,
                 toGranularity: .weekOfYear
             )
-            
+
         case .monthly:
             shouldReset = !calendar.isDate(
                 lastResetDate,
                 equalTo: now,
                 toGranularity: .month
             )
-            
-            if shouldReset {
-                amount = 0
-                lastResetDate = now
-            }
+        }
+
+        if shouldReset {
+
+            let record = HabitRecord(
+                date: lastResetDate,
+                amount: amount,
+                targetAmount: targetAmount,
+                habit: self
+            )
+
+            records.append(record)
+
+            amount = 0
+            lastResetDate = now
         }
     }
 }

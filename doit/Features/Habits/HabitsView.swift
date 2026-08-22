@@ -3,8 +3,6 @@ import SwiftData
 
 struct HabitsView: View {
 
-    @Environment(\.modelContext) private var modelContext
-
     @Query(sort: \Habit.title)
     private var habits: [Habit]
 
@@ -20,12 +18,24 @@ struct HabitsView: View {
                     ContentUnavailableView(
                         "No Habits Yet",
                         systemImage: "chart.bar.fill",
+                        description: Text(
+                            "Add a habit to start tracking your progress."
+                        )
                     )
                 } else {
                     ScrollView {
                         LazyVStack(spacing: 16) {
                             ForEach(habits) { habit in
-                                HabitRow(habit: habit)
+                                NavigationLink {
+                                    HabitDetailStatsView(
+                                        habit: habit
+                                    )
+                                } label: {
+                                    HabitRow(
+                                        habit: habit
+                                    )
+                                }
+                                .buttonStyle(.plain)
                             }
                         }
                         .padding()
