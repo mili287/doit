@@ -11,7 +11,7 @@ A digital bullet journal for iOS
 #### Journal
 - make journal entries markdown-like
 #### Habits
-- create a statistics page for each habit
+- make statistics better with line graph
 #### New Features
 - add week plan
 - add calendar
